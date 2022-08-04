@@ -1,24 +1,22 @@
 package com.mirkhusainov.geekbrainscourse
 
 class CountersPresenter(
-    private val view: MainView
 ) {
+
+    private var view: MainView? = null
     private val model = CountersModel()
 
+
+    fun attach(view: MainView){
+        this.view = view
+    }
+
     fun onCounterClick(id: Int) {
-        when (id) {
-            R.id.btnNumber1 -> {
-                val newValue = model.next(0)
-                view.setText(newValue.toString(), 0)
-            }
-            R.id.btnNumber2 -> {
-                val newValue = model.next(1)
-                view.setText(newValue.toString(), 1)
-            }
-            R.id.btnNumber3 -> {
-                val newValue = model.next(2)
-                view.setText(newValue.toString(), 2)
-            }
+        view.let {
+            val number = model.next(id)
+it?.setText(number.toString(),id)
         }
+
+
     }
 }

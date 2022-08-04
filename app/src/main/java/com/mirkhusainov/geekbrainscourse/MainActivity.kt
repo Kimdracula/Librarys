@@ -18,24 +18,26 @@ class MainActivity : AppCompatActivity(), MainView {
 
         with(binding) {
             btnNumber1.setOnClickListener {
-                presenter.onCounterClick(R.id.btnNumber1)
+                presenter.onCounterClick(0)
             }
             btnNumber2.setOnClickListener {
-                presenter.onCounterClick(R.id.btnNumber2)
+                presenter.onCounterClick(1)
             }
             btnNumber3.setOnClickListener {
-                presenter.onCounterClick(R.id.btnNumber3)
+                presenter.onCounterClick(2)
             }
         }
     }
 
     private fun initPresenter() {
-        presenter = CountersPresenter(this)
+        presenter = CountersPresenter()
+        presenter.attach(this)
+
     }
 
-    override fun setText(counter: String, position: Int) {
+    override fun setText(counter: String, id: Int) {
         with(binding) {
-            when (position) {
+            when (id) {
                 0 -> tvText1.text = counter
                 1 -> tvText2.text = counter
                 2 -> tvText3.text = counter
