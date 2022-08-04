@@ -3,6 +3,7 @@ package com.mirkhusainov.geekbrainscourse
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mirkhusainov.geekbrainscourse.databinding.ActivityMainBinding
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), MainView {
 
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
         initPresenter()
 
+
         with(binding) {
             btnNumber1.setOnClickListener {
                 presenter.onCounterClick(BUTTON1)
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity(), MainView {
                 presenter.onCounterClick(BUTTON3)
             }
         }
+
     }
 
     private fun initPresenter() {
@@ -45,4 +48,32 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
+   private fun restoreText(restoredArray: ArrayList<Int>) {
+        with(binding) {
+
+               tvText1.text = restoredArray[BUTTON1].toString()
+               tvText2.text = restoredArray[BUTTON2].toString()
+               tvText3.text = restoredArray[BUTTON3].toString()
+            }
+        }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        presenter.detach(this)
+        outState.putIntegerArrayList("KEY",presenter.saveResult() as ArrayList<Int>)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val restoredArray = savedInstanceState.getIntegerArrayList("KEY") as ArrayList<Int>
+        restoreText(restoredArray)
+        presenter.restoreResult(restoredArray)
+    }
+
+
+    override fun onDestroy() {
+        presenter.detach(null)
+        super.onDestroy()
+    }
 }

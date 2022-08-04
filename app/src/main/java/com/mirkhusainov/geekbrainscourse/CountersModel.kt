@@ -1,10 +1,11 @@
 package com.mirkhusainov.geekbrainscourse
 
+import java.util.ArrayList
 
 
 class CountersModel {
 
-    private val counters = mutableListOf(0, 0, 0)
+    private var counters = mutableListOf(0, 0, 0)
 
     fun getCurrent(position: Int): Int {
         return counters[position]
@@ -16,5 +17,13 @@ class CountersModel {
 
     fun set(position: Int, value: Int) {
         counters[position] = value
+    }
+
+    fun getArray(): MutableList<Int>{
+        return counters
+    }
+
+    fun setArray(savedArray: ArrayList<Int>?){
+        counters = savedArray as MutableList<Int>
     }
 }
