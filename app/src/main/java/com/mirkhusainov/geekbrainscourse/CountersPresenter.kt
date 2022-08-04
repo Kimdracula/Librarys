@@ -13,8 +13,8 @@ class CountersPresenter{
 
     fun onCounterClick(id: Int) {
         view.let {
-            val number = model.next(id)
-            it?.setText(number.toString(), id)
+           model.next(id)
+            it?.setText(model.getCurrent(id).toString(), id)
         }
     }
 
@@ -26,7 +26,7 @@ class CountersPresenter{
        model.setArray(savedArray)
     }
 
-    fun detach(view: MainView?){
-       this.view=view
+    fun detach(){
+       view = null
     }
 }
