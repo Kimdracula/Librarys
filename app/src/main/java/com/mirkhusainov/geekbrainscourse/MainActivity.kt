@@ -16,52 +16,53 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(binding.root)
 
         initPresenter()
+        setClickListeners()
 
+    }
 
+    private fun setClickListeners() {
         with(binding) {
             btnNumber1.setOnClickListener {
-                presenter.onCounterClick(BUTTON1)
+                presenter.onCounterClick(BUTTON_1)
             }
             btnNumber2.setOnClickListener {
-                presenter.onCounterClick(BUTTON2)
+                presenter.onCounterClick(BUTTON_2)
             }
             btnNumber3.setOnClickListener {
-                presenter.onCounterClick(BUTTON3)
+                presenter.onCounterClick(BUTTON_3)
             }
         }
-
     }
 
     private fun initPresenter() {
         presenter = CountersPresenter()
         presenter.attach(this)
-
     }
 
     override fun setText(counter: String, id: Int) {
         with(binding) {
             when (id) {
-                BUTTON1 -> tvText1.text = counter
-                BUTTON2 -> tvText2.text = counter
-                BUTTON3 -> tvText3.text = counter
+                BUTTON_1 -> tvText1.text = counter
+                BUTTON_2 -> tvText2.text = counter
+                BUTTON_3 -> tvText3.text = counter
             }
         }
     }
 
-   private fun restoreText(restoredArray: ArrayList<Int>) {
+    private fun restoreText(restoredArray: ArrayList<Int>) {
         with(binding) {
 
-               tvText1.text = restoredArray[BUTTON1].toString()
-               tvText2.text = restoredArray[BUTTON2].toString()
-               tvText3.text = restoredArray[BUTTON3].toString()
-            }
+            tvText1.text = restoredArray[BUTTON_1].toString()
+            tvText2.text = restoredArray[BUTTON_2].toString()
+            tvText3.text = restoredArray[BUTTON_3].toString()
         }
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
-        presenter.detach(this)
-        outState.putIntegerArrayList("KEY",presenter.saveResult() as ArrayList<Int>)
         super.onSaveInstanceState(outState)
+        outState.putIntegerArrayList("KEY", presenter.saveResult() as ArrayList<Int>)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -71,9 +72,8 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.restoreResult(restoredArray)
     }
 
-
     override fun onDestroy() {
-        presenter.detach(null)
+        presenter.detach()
         super.onDestroy()
     }
 }
