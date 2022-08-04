@@ -1,5 +1,7 @@
 package com.mirkhusainov.geekbrainscourse
 
+
+
 class CountersModel {
 
     private val counters = mutableListOf(0, 0, 0)
