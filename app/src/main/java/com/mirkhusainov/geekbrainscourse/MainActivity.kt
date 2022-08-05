@@ -61,15 +61,16 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putIntegerArrayList("KEY", presenter.saveResult() as ArrayList<Int>)
+        outState.putIntegerArrayList(KEY_BUNDLE, presenter.saveResult() as ArrayList<Int>)
 
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val restoredArray = savedInstanceState.getIntegerArrayList("KEY") as ArrayList<Int>
+        if (!savedInstanceState.isEmpty){
+        val restoredArray = savedInstanceState.getIntegerArrayList(KEY_BUNDLE) as ArrayList<Int>
         restoreText(restoredArray)
-        presenter.restoreResult(restoredArray)
+        presenter.restoreResult(restoredArray)}
     }
 
     override fun onDestroy() {
