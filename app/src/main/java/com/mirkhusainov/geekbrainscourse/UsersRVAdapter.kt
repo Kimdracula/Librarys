@@ -14,13 +14,13 @@ class UsersRVAdapter(private val presenter: IUserListPresenter) :
             itemView.setOnClickListener { presenter.itemClickListener?.invoke(this) }
         }
 
-    override fun onBindViewHolder(holder: UsersRVAdapter.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
+    override fun onBindViewHolder(holder: UsersRVAdapter.ViewHolder, position: Int)  =
+        presenter.bindView(holder.apply { pos = position })
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+
+    override fun getItemCount(): Int
+        = presenter.getCount()
+
 
     inner class ViewHolder(val vb: RecycleItemBinding) : RecyclerView.ViewHolder(vb.root),
         UserItemView {
