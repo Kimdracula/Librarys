@@ -1,17 +1,15 @@
 package com.mirkhusainov.geekbrainscourse
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.mirkhusainov.geekbrainscourse.databinding.ActivityMainBinding
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
-import java.util.ArrayList
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
     private lateinit var binding: ActivityMainBinding
     private val presenter by moxyPresenter {
-        CountersPresenter()
+        MainPresenter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
