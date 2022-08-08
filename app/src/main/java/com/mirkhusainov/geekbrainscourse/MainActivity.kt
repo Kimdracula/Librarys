@@ -3,19 +3,22 @@ package com.mirkhusainov.geekbrainscourse
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mirkhusainov.geekbrainscourse.databinding.ActivityMainBinding
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import java.util.ArrayList
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var presenter: CountersPresenter
+    private val presenter by moxyPresenter {
+        CountersPresenter()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initPresenter()
         setClickListeners()
 
     }
@@ -34,10 +37,6 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
-    private fun initPresenter() {
-        presenter = CountersPresenter()
-        presenter.attach(this)
-    }
 
     override fun setText(counter: String, id: Int) {
         with(binding) {
@@ -47,34 +46,5 @@ class MainActivity : AppCompatActivity(), MainView {
                 BUTTON_3 -> tvText3.text = counter
             }
         }
-    }
-
-    private fun restoreText(restoredArray: ArrayList<Int>) {
-        with(binding) {
-
-            tvText1.text = restoredArray[BUTTON_1].toString()
-            tvText2.text = restoredArray[BUTTON_2].toString()
-            tvText3.text = restoredArray[BUTTON_3].toString()
-        }
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putIntegerArrayList(KEY_BUNDLE, presenter.saveResult() as ArrayList<Int>)
-
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        if (!savedInstanceState.isEmpty){
-        val restoredArray = savedInstanceState.getIntegerArrayList(KEY_BUNDLE) as ArrayList<Int>
-        restoreText(restoredArray)
-        presenter.restoreResult(restoredArray)}
-    }
-
-    override fun onDestroy() {
-        presenter.detach()
-        super.onDestroy()
     }
 }

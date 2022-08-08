@@ -19,11 +19,4 @@ class CountersModel {
         counters[position] = value
     }
 
-    fun getArray(): MutableList<Int>{
-        return counters
-    }
-
-    fun setArray(savedArray: ArrayList<Int>?){
-        counters = savedArray as MutableList<Int>
-    }
 }
